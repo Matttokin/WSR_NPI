@@ -9,6 +9,7 @@ namespace WSR_NPI.Models
     public class CreateOrderViewModel
     {
         [Display(Name = "Адрес")]
+        [Required(ErrorMessage = "Заполните поле")]
         public string Adress { get; set; }
 
         public List<CreateOrderNum> OrderNums { get; set; }

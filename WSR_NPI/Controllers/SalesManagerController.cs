@@ -67,6 +67,13 @@ namespace WSR_NPI.Controllers
                     return View(model);
                 };
 
+                if (model.OrderNums.Where(x => x.IsBuy).Count() == 0) 
+                {
+                    ModelState.AddModelError("", "Выберите товар");
+
+                    return View(model);
+                }
+
                 var user = Context.Users.Single(u => u.Login.Equals(User.Identity.Name));
 
                 var order = Context.Orders.Add(new Order
