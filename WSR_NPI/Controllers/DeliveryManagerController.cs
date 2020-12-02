@@ -85,7 +85,7 @@ namespace WSR_NPI.Controllers
                 order.Status = "Ожидает курьера";
                 var user = Context.Users.Single(x => x.Login.Equals(User.Identity.Name));
 
-                if (SmartCourier(order, model)) 
+                if (SmartCourier(order, c)) 
                 {
                     BlockChainManager.GenerateNextBlock(JsonConvert.SerializeObject(order), user.Id);
                 }
@@ -104,11 +104,10 @@ namespace WSR_NPI.Controllers
         /// <returns></returns>
         private bool SmartCourier(Order order, WSR_NPI.DataBase.Models.Сourier model)
         {
-            Context = new Context();
             var o = Context.Orders.FirstOrDefault(x => x.Id == order.Id);
             var c = Context.Сouriers.Single(x => x.Id == model.Id);
 
-            if (o != null && o.Status.Equals("Комплектация завершена") && c.Status.Equals("Свободен"))
+            if (o != null && o.Status.Equals("Ожидает курьера") && c.Status.Equals("Доставляет"))
             {
                 return true;
             }

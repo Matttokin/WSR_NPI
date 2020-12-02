@@ -130,10 +130,9 @@ namespace WSR_NPI.Controllers
         /// <returns></returns>
         private bool SmartStatus(Order order)
         {
-            Context = new Context();
             var o = Context.Orders.FirstOrDefault(x => x.Id == order.Id);
 
-            if (o != null &&  ((o.Status.Equals("Принят") && order.Status.Equals("Комплектация начата")) || (o.Status.Equals("Комплектация начата") && order.Status.Equals("Комплектация завершена"))))
+            if (o != null &&  (order.Status.Equals("Комплектация начата") || order.Status.Equals("Комплектация завершена")))
             {
                 return true;
             }

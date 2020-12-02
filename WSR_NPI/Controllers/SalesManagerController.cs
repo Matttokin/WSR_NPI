@@ -337,8 +337,6 @@ namespace WSR_NPI.Controllers
         /// <returns></returns>
         private bool SmartCreate(Order order)
         {
-            Context = new Context();
-
             if (Context.Orders.FirstOrDefault(x => x.Id == order.Id) == null && order.Status.Equals("Принят"))
             {
                 return true;
@@ -355,7 +353,6 @@ namespace WSR_NPI.Controllers
         /// <returns></returns>
         private bool SmartCancel(Order order)
         {
-            Context = new Context();
             var o = Context.Orders.FirstOrDefault(x => x.Id == order.Id);
 
             if (o != null && (o.Status.Equals("Принят") || o.Status.Equals("Комплектация начата") || o.Status.Equals("Комплектация завершена")))
