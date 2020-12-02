@@ -149,6 +149,7 @@
     <Compile Include="Controllers\Web\GetStatusAndOrderController.cs" />
     <Compile Include="Controllers\Web\GetTokenController.cs" />
     <Compile Include="DataBase\Context.cs" />
+    <Compile Include="DataBase\Models\Block.cs" />
     <Compile Include="DataBase\Models\Nomenclature.cs" />
     <Compile Include="DataBase\Models\Order.cs" />
     <Compile Include="DataBase\Models\OrderNom.cs" />
@@ -162,8 +163,13 @@
     <Compile Include="Migrations\202012020900497_Init.designer.cs">
       <DependentUpon>202012020900497_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202012021136219_AddBlocks.cs" />
+    <Compile Include="Migrations\202012021136219_AddBlocks.designer.cs">
+      <DependentUpon>202012021136219_AddBlocks.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\BlockChainManager.cs" />
     <Compile Include="Models\CreateOrderViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\CustomRoleProvider.cs" />
@@ -337,6 +343,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202012020900497_Init.resx">
       <DependentUpon>202012020900497_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012021136219_AddBlocks.resx">
+      <DependentUpon>202012021136219_AddBlocks.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
