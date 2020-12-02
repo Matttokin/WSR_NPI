@@ -1,0 +1,36 @@
+﻿@model WSR_NPI.DataBase.Models.Сourier
+@using WSR_NPI.DataBase
+@using System.Data.Entity
+
+@{
+    Context db = new Context();
+    var couriers = db.Сouriers.Include(x => x.User).ToList();
+}
+
+<h1 class="h1">Назначение курьера на заказ</h1>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="form-group">
+        <label class="d-block" for="courier">Роль</label>
+        @{
+            List<SelectListItem> items = new List<SelectListItem>();
+
+            foreach (WSR.DataBase.Models.Сourier сourier in couriers)
+            {
+                items.Add(new SelectListItem { Text = сourier.User.FIO, Value = сourier.Id.ToString() });
+            }
+        }
+
+        @Html.DropDownListFor(model => model.Id, items, new { id = "courier" })
+        @Html.HiddenFor(model => model.OrderId);
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Назначить" class="btn btn-primary" />
+    </div>
+}
+

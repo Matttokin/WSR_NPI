@@ -13,12 +13,7 @@ namespace WSR_NPI.Controllers
 {
     public class AccountController : Controller
     {
-        private Context Context;
-
-        AccountController()
-        {
-            Context = new Context();
-        }
+        private Context Context = new Context();
 
         // GET: Account
         public ActionResult Login()

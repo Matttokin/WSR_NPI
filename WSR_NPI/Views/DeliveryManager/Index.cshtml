@@ -1,0 +1,55 @@
+﻿@model IEnumerable<WSR_NPI.DataBase.Models.Order>
+
+@{
+    ViewBag.Title = "Cписок заказов";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3>Список заказов</h3>
+    </div>
+    <div class="panel-body">
+
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Составитель</th>
+                    <th scope="col">Адрес</th>
+                    <th scope="col">Статус</th>
+                    <th scope="col">Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            @{
+                var i = 1;
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <th scope="row">@i</th>
+                        <td>@item.User.Login</td>
+                        <td>@item.Adres</td>
+                        <td>@item.Status</td>
+                        <td>
+                            @Html.ActionLink("Содержимое", "Details", "DeliveryManager", new { id = item.Id }, new { @class = "btn btn-primary order-btn" })
+                            @Html.ActionLink("Назначить курьера", "AssignCourierOrder", "DeliveryManager", new { id = item.Id }, new { @class = "btn btn-success order-btn" })
+                        </td>
+                    </tr>
+
+                    i++;
+                }
+            }
+        </table>
+
+        <div class="details">
+        </div>
+    </div>
+</div>
+
+<script>
+    $(".order-btn").on("click", function (e) {
+            e.preventDefault();
+            $(".details").load(this.href);
+    });
+</script>
