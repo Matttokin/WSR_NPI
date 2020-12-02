@@ -13,7 +13,7 @@ namespace WSR_NPI.Controllers.Web
         public ExportStatusAndOrder Post(string token)
         {
             Context db = new Context();
-            var user = db.Users.FirstOrDefault(x => x.Token.Equals(token));
+            var user = db.Users.FirstOrDefault(x => x.Token.Equals(token)); //ищем пользователю
 
             if (user != null)
             {
@@ -22,6 +22,7 @@ namespace WSR_NPI.Controllers.Web
                 var order = db.Orders.Include(x => x.OrderNoms).FirstOrDefault(x => x.Id == courier.OrderId);
                 if (order != null)
                 {
+                    //формируем наполнение информации по заказу
                     var orderNoms = db.OrderNoms.Where(x => x.OrderId == courier.OrderId).Include(x => x.Nomenclature).ToList();
                     List<ExportNomenclature> len = new List<ExportNomenclature>();
                     foreach (var orderNomsElem in orderNoms)
@@ -31,10 +32,12 @@ namespace WSR_NPI.Controllers.Web
                         en.CountInOrder = orderNomsElem.CountInOrder;
                         len.Add(en);
                     }
+                    //отправка в случае если нет назначенного заказа
                     ExportStatusAndOrder esao = new ExportStatusAndOrder { Status = courier.Status, Order = new OrderExport { Adres = order.Adres, Nom = len, Status = order.Status } };
                     return esao;
                 } else
                 {
+                    //отправка в случае если есть назначенный заказ
                     ExportStatusAndOrder esao = new ExportStatusAndOrder { Status = courier.Status, Order = null };
                     return esao;
                 }
@@ -45,6 +48,7 @@ namespace WSR_NPI.Controllers.Web
             }
         }
     }
+    //урезанные классы бд - требуются для более удобной отправки данных на клиент
     public class ExportStatusAndOrder
     {
         public string Status { get; set; }

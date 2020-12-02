@@ -13,7 +13,7 @@ namespace WSR_NPI.Controllers.Web
         public ExportUser Post(string login, string password)
         {
             Context db = new Context();
-
+            //ищем пользователя
             var user = db.Users.FirstOrDefault(x => x.Login.Equals(login) && x.Password.Equals(password) && x.Role.Name.Equals("Курьер"));
             if (user == null)
             {

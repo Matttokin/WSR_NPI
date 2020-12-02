@@ -15,6 +15,7 @@
             AutomaticMigrationsEnabled = false;
         }
 
+        //seed позволяет при запуске приложения проверить наличие необходимых данных и внести их при их отсутствии 
         protected override void Seed(WSR_NPI.DataBase.Context context)
         {
 
@@ -56,6 +57,8 @@
                 db.SaveChanges();
             }
         }
+
+        //далее находятся методы для записи строк в бд
         public void createUser(WSR_NPI.DataBase.Context db, string login,string password,string fio, string roleName, int age)
         {
             User user = null;
@@ -97,15 +100,15 @@
                 db.SaveChanges();
             }
         }
+
+        //получаем MD5 хеш от строки
         public static string CreateMD5(string input)
         {
-            // Use input string to calculate MD5 hash
             using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
             {
                 byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
                 byte[] hashBytes = md5.ComputeHash(inputBytes);
 
-                // Convert the byte array to hexadecimal string
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < hashBytes.Length; i++)
                 {

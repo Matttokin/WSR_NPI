@@ -5,6 +5,8 @@ using System.Data.Entity;
 using System.Web;
 using System.Web.Mvc;
 using WSR_NPI.DataBase;
+using WSR_NPI.Models;
+using Newtonsoft.Json;
 
 namespace WSR_NPI.Controllers
 {
@@ -91,6 +93,8 @@ namespace WSR_NPI.Controllers
                     order.Status = "Комплектация завершена";
                 }
 
+                var user = Context.Users.Single(x => x.Login.Equals(User.Identity.Name));
+                BlockChainManager.GenerateNextBlock(JsonConvert.SerializeObject(order), user.Id);
                 Context.SaveChanges();
 
                 return RedirectToAction("Index");
