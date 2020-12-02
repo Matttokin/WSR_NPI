@@ -270,6 +270,8 @@ namespace WSR_NPI.Controllers
                 }
 
                 order.Status = "Отменен";
+                var user = Context.Users.Single(x => x.Login.Equals(User.Identity.Name));
+                BlockChainManager.GenerateNextBlock(JsonConvert.SerializeObject(order), user.Id);
                 Context.SaveChanges();
 
                 return RedirectToAction("Index");

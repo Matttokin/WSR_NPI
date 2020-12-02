@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
 using WSR_NPI.DataBase;
+using WSR_NPI.Models;
 
 namespace WSR_NPI.Controllers.Web
 {
@@ -20,6 +22,7 @@ namespace WSR_NPI.Controllers.Web
                 courier.Status = "Свободен";
                 var order = db.Orders.FirstOrDefault(x => x.Id == courier.OrderId);
                 order.Status = "Доставлен";
+                BlockChainManager.GenerateNextBlock(JsonConvert.SerializeObject(order), user.Id);
                 courier.OrderId = null;
                 db.SaveChanges();
 

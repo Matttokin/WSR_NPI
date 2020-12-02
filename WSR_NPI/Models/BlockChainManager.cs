@@ -77,7 +77,7 @@ namespace WSR_NPI.Models
         {
             var context = new Context();
 
-            return context.Blocks.Last();
+            return context.Blocks.ToList().Last();
         }
 
         public static string CalculateHash(int index, string previousHash, long timestamp, string data)

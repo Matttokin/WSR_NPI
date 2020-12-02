@@ -5,6 +5,8 @@ using System.Data.Entity;
 using System.Web;
 using System.Web.Mvc;
 using WSR_NPI.DataBase;
+using Newtonsoft.Json;
+using WSR_NPI.Models;
 
 namespace WSR_NPI.Controllers
 {
@@ -78,7 +80,10 @@ namespace WSR_NPI.Controllers
                 c.Status = "Доставляет";
                 c.OrderId = model.OrderId;
 
-                Context.Orders.Single(x => x.Id == model.OrderId).Status = "Ожидает курьера";
+                var order = Context.Orders.Single(x => x.Id == model.OrderId);
+                order.Status = "Ожидает курьера";
+                var user = Context.Users.Single(x => x.Login.Equals(User.Identity.Name));
+                BlockChainManager.GenerateNextBlock(JsonConvert.SerializeObject(order), user.Id);
                 Context.SaveChanges();
 
                 return RedirectToAction("Index");
