@@ -94,6 +94,7 @@ namespace WSR_NPI.Controllers
                 }
 
                 var user = Context.Users.Single(x => x.Login.Equals(User.Identity.Name));
+                //добавляем запись в блокчейн
                 BlockChainManager.GenerateNextBlock(JsonConvert.SerializeObject(order), user.Id);
                 Context.SaveChanges();
 

@@ -83,7 +83,7 @@ namespace WSR_NPI.Controllers
                     UserId = user.Id,
                     Status = "Принят"
                 });
-
+                //добавляем запись в блокчейн
                 BlockChainManager.GenerateNextBlock(JsonConvert.SerializeObject(order), user.Id);
 
                 foreach (var orderNumModel in model.OrderNums.Where(o => o.IsBuy && o.CountBuy > 0))
@@ -271,6 +271,7 @@ namespace WSR_NPI.Controllers
 
                 order.Status = "Отменен";
                 var user = Context.Users.Single(x => x.Login.Equals(User.Identity.Name));
+                //добавляем запись в блокчейн
                 BlockChainManager.GenerateNextBlock(JsonConvert.SerializeObject(order), user.Id);
                 Context.SaveChanges();
 
@@ -296,10 +297,13 @@ namespace WSR_NPI.Controllers
 
             foreach(var block in blocks)
             {
-                var order = JsonConvert.DeserializeObject<Order>(block.Data);
-                if (order.Id == id)
+                if(block.Index != 1)
                 {
-                    model.Add(block);
+                    var order = JsonConvert.DeserializeObject<Order>(block.Data);
+                    if (order.Id == id)
+                    {
+                        model.Add(block);
+                    }
                 }
             }
 

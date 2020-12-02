@@ -83,6 +83,7 @@ namespace WSR_NPI.Controllers
                 var order = Context.Orders.Single(x => x.Id == model.OrderId);
                 order.Status = "Ожидает курьера";
                 var user = Context.Users.Single(x => x.Login.Equals(User.Identity.Name));
+                //добавляем запись в блокчейн
                 BlockChainManager.GenerateNextBlock(JsonConvert.SerializeObject(order), user.Id);
                 Context.SaveChanges();
 
