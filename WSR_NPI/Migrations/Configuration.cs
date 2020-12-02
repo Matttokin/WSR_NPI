@@ -39,6 +39,8 @@
             createUser(context, "ManDost", "1234qW", "Кузнецов К.К.", "Менеджер по доставке", 24);
             createUser(context, "Kur", "1234qW", "Дубровский Д.Д.", "Курьер", 18);
 
+            InitBlock(context);
+
         }
         public void startSeed()
         {
@@ -110,6 +112,25 @@
                     sb.Append(hashBytes[i].ToString("X2"));
                 }
                 return sb.ToString();
+            }
+        }
+
+        public void InitBlock(WSR_NPI.DataBase.Context db)
+        {
+            var block = db.Blocks.FirstOrDefault(b => b.Index == 1);
+
+            if (block == null)
+            {
+                db.Blocks.Add(new Block
+                {
+                    Index = 1,
+                    TimeStamp = DateTime.UtcNow.Ticks,
+                    Data = "genesis block!",
+                    Hash = "816534932c2b7154836da6afc367695e6337db8a921823784c14378abed4f7d7",
+                    PreviousHash = "0"
+                });
+
+                db.SaveChanges();
             }
         }
     }

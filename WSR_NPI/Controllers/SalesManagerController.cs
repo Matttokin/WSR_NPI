@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using WSR_NPI.DataBase;
 using WSR_NPI.Models;
 using WSR_NPI.DataBase.Models;
+using Newtonsoft.Json;
 
 namespace WSR_NPI.Controllers
 {
@@ -82,6 +83,8 @@ namespace WSR_NPI.Controllers
                     UserId = user.Id,
                     Status = "Принят"
                 });
+
+                BlockChainManager.GenerateNextBlock(JsonConvert.SerializeObject(order), user.Id);
 
                 foreach (var orderNumModel in model.OrderNums.Where(o => o.IsBuy && o.CountBuy > 0))
                 {

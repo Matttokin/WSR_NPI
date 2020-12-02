@@ -21,5 +21,7 @@ namespace WSR_NPI.DataBase
         public DbSet<Nomenclature> Nomenclatures { get; set; }
         public DbSet<OrderNom> OrderNoms { get; set; }
         public DbSet<Сourier> Сouriers { get; set; }
+
+        public DbSet<Block> Blocks { get; set; }
     }
 }
