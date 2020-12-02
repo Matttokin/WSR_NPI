@@ -144,6 +144,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SalesManagerController.cs" />
     <Compile Include="Controllers\WarehouseWorkerController.cs" />
+    <Compile Include="Controllers\Web\ChangeStatusOrderController.cs" />
     <Compile Include="Controllers\Web\FinishOrderController.cs" />
     <Compile Include="Controllers\Web\GetOrderByIdController.cs" />
     <Compile Include="Controllers\Web\GetStatusAndOrderController.cs" />

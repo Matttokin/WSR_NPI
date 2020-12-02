@@ -31,7 +31,7 @@ namespace WSR_NPI.Controllers.Web
                         en.CountInOrder = orderNomsElem.CountInOrder;
                         len.Add(en);
                     }
-                    ExportStatusAndOrder esao = new ExportStatusAndOrder { Status = courier.Status, Order = new OrderExport { Adres = order.Adres, Nom = len } };
+                    ExportStatusAndOrder esao = new ExportStatusAndOrder { Status = courier.Status, Order = new OrderExport { Adres = order.Adres, Nom = len, Status = order.Status } };
                     return esao;
                 } else
                 {
@@ -53,6 +53,7 @@ namespace WSR_NPI.Controllers.Web
     public class OrderExport
     {
         public string Adres { get; set; }
+        public string Status { get; set; }
         public List<ExportNomenclature> Nom { get; set; }
     }
     public class ExportNomenclature
