@@ -21,7 +21,7 @@ namespace WSR_NPI
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AntiForgeryConfig.SuppressXFrameOptionsHeader = true;
-            //new Migrations.Configuration().startSeed();
+            new Migrations.Configuration().startSeed();
         }
 
         protected void Application_BeginRequest(object sender, EventArgs e)
