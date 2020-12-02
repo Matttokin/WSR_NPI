@@ -20,22 +20,28 @@ namespace WSR_NPI.Controllers.Web
                 var courier = db.Сouriers.FirstOrDefault(x => x.User.Id == user.Id);
 
                 var order = db.Orders.Include(x => x.OrderNoms).FirstOrDefault(x => x.Id == courier.OrderId);
-                var orderNoms = db.OrderNoms.Where(x => x.OrderId == courier.OrderId).Include(x => x.Nomenclature).ToList();
-                List<ExportNomenclature> len = new List<ExportNomenclature>();
-                foreach (var orderNomsElem in orderNoms)
+                if (order != null)
                 {
-                    ExportNomenclature en = new ExportNomenclature();
-                    en.Name = orderNomsElem.Nomenclature.Name;
-                    en.CountInOrder = orderNomsElem.CountInOrder;
-                    len.Add(en);
+                    var orderNoms = db.OrderNoms.Where(x => x.OrderId == courier.OrderId).Include(x => x.Nomenclature).ToList();
+                    List<ExportNomenclature> len = new List<ExportNomenclature>();
+                    foreach (var orderNomsElem in orderNoms)
+                    {
+                        ExportNomenclature en = new ExportNomenclature();
+                        en.Name = orderNomsElem.Nomenclature.Name;
+                        en.CountInOrder = orderNomsElem.CountInOrder;
+                        len.Add(en);
+                    }
+                    ExportStatusAndOrder esao = new ExportStatusAndOrder { Status = courier.Status, Order = new OrderExport { Adres = order.Adres, Nom = len } };
+                    return esao;
+                } else
+                {
+                    ExportStatusAndOrder esao = new ExportStatusAndOrder { Status = courier.Status, Order = null };
+                    return esao;
                 }
-                ExportStatusAndOrder esao = new ExportStatusAndOrder { Status = courier.Status, Order = new OrderExport { Adres = order.Adres, Nom = len } };
-                return esao;
             }
             else
             {
                 return null;
-                //
             }
         }
     }
