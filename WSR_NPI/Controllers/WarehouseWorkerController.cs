@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using WSR_NPI.DataBase;
 using WSR_NPI.Models;
 using Newtonsoft.Json;
+using WSR_NPI.DataBase.Models;
 
 namespace WSR_NPI.Controllers
 {
@@ -94,7 +95,11 @@ namespace WSR_NPI.Controllers
                 }
 
                 var user = Context.Users.Single(x => x.Login.Equals(User.Identity.Name));
-                BlockChainManager.GenerateNextBlock(JsonConvert.SerializeObject(order), user.Id);
+
+                if (SmartStatus(order))
+                {
+                    BlockChainManager.GenerateNextBlock(JsonConvert.SerializeObject(order), user.Id);
+                }
                 Context.SaveChanges();
 
                 return RedirectToAction("Index");
@@ -116,6 +121,26 @@ namespace WSR_NPI.Controllers
                 Context.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        /// <summary>
+        /// Смарт контракт для смены статуса
+        /// </summary>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        private bool SmartStatus(Order order)
+        {
+            Context = new Context();
+            var o = Context.Orders.FirstOrDefault(x => x.Id == order.Id);
+
+            if (o != null &&  ((o.Status.Equals("Принят") && order.Status.Equals("Комплектация начата")) || (o.Status.Equals("Комплектация начата") && order.Status.Equals("Комплектация завершена"))))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

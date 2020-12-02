@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using WSR_NPI.DataBase;
 using Newtonsoft.Json;
 using WSR_NPI.Models;
+using WSR_NPI.DataBase.Models;
 
 namespace WSR_NPI.Controllers
 {
@@ -83,13 +84,38 @@ namespace WSR_NPI.Controllers
                 var order = Context.Orders.Single(x => x.Id == model.OrderId);
                 order.Status = "Ожидает курьера";
                 var user = Context.Users.Single(x => x.Login.Equals(User.Identity.Name));
-                BlockChainManager.GenerateNextBlock(JsonConvert.SerializeObject(order), user.Id);
+
+                if (SmartCourier(order, model)) 
+                {
+                    BlockChainManager.GenerateNextBlock(JsonConvert.SerializeObject(order), user.Id);
+                }
                 Context.SaveChanges();
 
                 return RedirectToAction("Index");
             }
 
             return PartialView("AssignCourierOrder", model);
+        }
+
+        /// <summary>
+        /// Смарт контракт для назначения курьера на заказ
+        /// </summary>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        private bool SmartCourier(Order order, WSR_NPI.DataBase.Models.Сourier model)
+        {
+            Context = new Context();
+            var o = Context.Orders.FirstOrDefault(x => x.Id == order.Id);
+            var c = Context.Сouriers.Single(x => x.Id == model.Id);
+
+            if (o != null && o.Status.Equals("Комплектация завершена") && c.Status.Equals("Свободен"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

@@ -84,7 +84,11 @@ namespace WSR_NPI.Controllers
                     Status = "Принят"
                 });
 
-                BlockChainManager.GenerateNextBlock(JsonConvert.SerializeObject(order), user.Id);
+
+                if (SmartCreate(order))
+                {
+                    BlockChainManager.GenerateNextBlock(JsonConvert.SerializeObject(order), user.Id);
+                }
 
                 foreach (var orderNumModel in model.OrderNums.Where(o => o.IsBuy && o.CountBuy > 0))
                 {
@@ -271,7 +275,11 @@ namespace WSR_NPI.Controllers
 
                 order.Status = "Отменен";
                 var user = Context.Users.Single(x => x.Login.Equals(User.Identity.Name));
-                BlockChainManager.GenerateNextBlock(JsonConvert.SerializeObject(order), user.Id);
+
+                if (SmartCancel(order)){
+                    BlockChainManager.GenerateNextBlock(JsonConvert.SerializeObject(order), user.Id);
+                }
+
                 Context.SaveChanges();
 
                 return RedirectToAction("Index");
@@ -317,6 +325,44 @@ namespace WSR_NPI.Controllers
                 Context.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        /// <summary>
+        /// Смарт контракт для создания заказа
+        /// </summary>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        private bool SmartCreate(Order order)
+        {
+            Context = new Context();
+
+            if (Context.Orders.FirstOrDefault(x => x.Id == order.Id) == null && order.Status.Equals("Принят"))
+            {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Смарт контракт для отмены заказа
+        /// </summary>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        private bool SmartCancel(Order order)
+        {
+            Context = new Context();
+            var o = Context.Orders.FirstOrDefault(x => x.Id == order.Id);
+
+            if (o != null && (o.Status.Equals("Принят") || o.Status.Equals("Комплектация начата") || o.Status.Equals("Комплектация завершена")))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
