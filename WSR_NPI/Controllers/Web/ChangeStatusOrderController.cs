@@ -26,7 +26,7 @@ namespace WSR_NPI.Controllers.Web
 
                 var order = db.Orders.FirstOrDefault(x => x.Id == courier.OrderId);
                 order.Status = "Получен курьером";
-
+                //добавляем запись в блокчейн
                 BlockChainManager.GenerateNextBlock(JsonConvert.SerializeObject(order), user.Id);
                 db.SaveChanges();
 

@@ -304,10 +304,13 @@ namespace WSR_NPI.Controllers
 
             foreach(var block in blocks)
             {
-                var order = JsonConvert.DeserializeObject<Order>(block.Data);
-                if (order.Id == id)
+                if(block.Index != 1)
                 {
-                    model.Add(block);
+                    var order = JsonConvert.DeserializeObject<Order>(block.Data);
+                    if (order.Id == id)
+                    {
+                        model.Add(block);
+                    }
                 }
             }
 
