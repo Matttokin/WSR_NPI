@@ -27,7 +27,7 @@
                         <tr>
                             <th scope="row">@i</th>
                             <td>@item.User.Login</td>
-                            <td>@item.Status</td>
+                            <td class="status">@item.Status</td>
                             <td>
                                 @Html.ActionLink("Содержимое", "Details", "WarehouseWorker", new { id = item.Id }, new { @class = "btn btn-primary order-btn" })
 
@@ -77,6 +77,13 @@
 
         if (result === true) {
             $.get(this.href);
+            //location.href = document.URL.toString();
+
+
+            setTimeout(reloadPage, 1000);
+        }
+        function reloadPage() {
+            location.href = document.URL.toString();
         }
     });
 </script>

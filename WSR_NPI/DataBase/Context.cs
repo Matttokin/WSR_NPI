@@ -9,10 +9,12 @@ namespace WSR_NPI.DataBase
 {
     public class Context : DbContext
     {
+        //инициализируем соединение с бд
         public Context()
             : base("DBConnection")
         { }
 
+        
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Order> Orders { get; set; }
