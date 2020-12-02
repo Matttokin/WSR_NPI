@@ -1,0 +1,76 @@
+﻿@model WSR_NPI.Models.RegisterModel
+@using WSR_NPI.DataBase
+
+@{
+    ViewBag.Title = "Регистрация";
+
+    Context db = new Context();
+    var roles = db.Roles.ToList();
+}
+
+<h1 class="h1">Регистрация</h1>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Login)
+        @Html.TextBoxFor(model => model.Login, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Login)
+    </div>
+
+    <div class="form-group">
+        <label class="d-block" for="role">Роль</label>
+        @{
+            List<SelectListItem> items = new List<SelectListItem>();
+
+            foreach (WSR.DataBase.Models.Role role in roles)
+            {
+                items.Add(new SelectListItem { Text = role.Name, Value = role.Id.ToString() });
+            }
+        }
+
+        @Html.DropDownListFor(model => model.RoleId, items, new { id = "role" });
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Password)
+        @Html.TextBoxFor(model => model.Password, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Password)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ConfirmPassword)
+        @Html.TextBoxFor(model => model.ConfirmPassword, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.ConfirmPassword)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Fio)
+        @Html.TextBoxFor(model => model.Fio, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Fio)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Age)
+        @Html.TextBoxFor(model => model.Age, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Age)
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Зарегистрировать" class="btn btn-primary" />
+    </div>
+}
+
+
+
+<script>
+    $(function () {
+        $('#role').select2({
+            width: '280px',
+            minimumResultsForSearch: 10000
+        });
+    });
+</script>

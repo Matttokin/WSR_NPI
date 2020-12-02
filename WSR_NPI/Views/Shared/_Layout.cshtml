@@ -1,43 +1,75 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+    @RenderSection("scripts", required: false)
+
+    <link href="~/Content/ErrorStyles.css" rel="stylesheet" />
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Имя приложения", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Домашняя страница", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Информация", "About", "Home")</li>
-                    <li>@Html.ActionLink("Связаться", "Contact", "Home")</li>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">WSR</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item text-white">
+                        @Html.ActionLink("Главная", "Index", "Home", new { area = "" }, new { @class = "nav-link" })
+                    </li>
+
+                    @if (User.IsInRole("Менеджер по продажам"))
+                    {
+                        <li class="nav-item text-white">
+                            @Html.ActionLink("Список заказов", "Index", "SalesManager", new { area = "" }, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item text-white">
+                            @Html.ActionLink("Создать заказ", "CreateOrder", "SalesManager", new { area = "" }, new { @class = "nav-link" })
+                        </li>
+                    }
+
+                    @if (User.IsInRole("Работник склада"))
+                    {
+                        <li class="nav-item text-white">
+                            @Html.ActionLink("Список заказов", "Index", "WarehouseWorker", new { area = "" }, new { @class = "nav-link" })
+                        </li>
+                    }
+
+                    @if (User.IsInRole("Менеджер по доставке"))
+                    {
+                        <li class="nav-item text-white">
+                            @Html.ActionLink("Список заказов", "Index", "DeliveryManager", new { area = "" }, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item text-white">
+                            @Html.ActionLink("Список курьеров", "Couriers", "DeliveryManager", new { area = "" }, new { @class = "nav-link" })
+                        </li>
+                    }
                 </ul>
+
+                @Html.ActionLink("Выход", "Logoff", "Account", new { area = "" }, new { @class = "btn btn-outline-info" })
             </div>
-        </div>
+        </nav>
     </div>
-    <div class="container body-content">
+
+    <div class="container body-content" style="padding-top: 25px; padding-bottom: 25px;">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - мое приложение ASP.NET</p>
+            <p>&copy; @DateTime.Now.Year - WSR_NPI</p>
         </footer>
     </div>
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
 </body>
 </html>

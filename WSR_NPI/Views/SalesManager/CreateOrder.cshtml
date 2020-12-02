@@ -1,0 +1,69 @@
+﻿@model WSR_NPI.Models.CreateOrderViewModel
+@using WSR_NPI.DataBase
+
+@{
+    ViewBag.Title = "Формирование заказа";
+}
+
+<h1 class="h1">Регистрация</h1>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Adress)
+        @Html.TextBoxFor(model => model.Adress, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Adress)
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Осталось</th>
+                <th>Добавить</th>
+                <th>Количество</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (var i = 0; i < Model.OrderNums.Count(); i++)
+            {
+                var orderNum = Model.OrderNums[i];
+
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.OrderNums[i].Name, orderNum.Name)
+                        @Html.HiddenFor(model => model.OrderNums[i].Name)
+                    </td>
+                    <td>
+                        @Html.LabelFor(model => model.OrderNums[i].Count, @Model.OrderNums[i].Count.ToString())
+                        @Html.HiddenFor(model => model.OrderNums[i].Count)
+                    </td>
+                    <td>@Html.CheckBoxFor(model => model.OrderNums[i].IsBuy)</td>
+                    <td>
+                        @if (Model.OrderNums[i].IsBuy)
+                        {
+                            @Html.TextBoxFor(model => model.OrderNums[i].CountBuy, new { @class = "form-control" })
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(model => model.OrderNums[i].CountBuy, new { @class = "form-control", disabled = "true" })
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="form-group">
+        <input type="submit" value="Сформировать" class="btn btn-primary" />
+    </div>
+}
+
+<script>
+    $(":checkbox").click(function () {
+        $(this).parent().next().find('.form-control').attr("disabled", !$(this).is(':checked'));
+    });
+</script>

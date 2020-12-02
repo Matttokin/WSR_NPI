@@ -1,0 +1,47 @@
+﻿@model WSR_NPI.Models.LoginModel
+
+@{
+    ViewBag.Title = "Авторизация";
+    Layout = null;
+}
+
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+<link href="~/Content/ErrorStyles.css" rel="stylesheet" />
+
+<div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title">Авторизация</h1>
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name)
+                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Name)
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Password)
+                        @Html.TextBoxFor(model => model.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Password)
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Войти" class="btn btn-primary btn-block" />
+                    </div>
+                }
+            </div>
+            <div class="card-footer">
+                @Html.ActionLink("Регистрация", "Register", "Account", new { area = "" }, null)
+            </div>
+        </div>
+    </div>
+</div>
+
