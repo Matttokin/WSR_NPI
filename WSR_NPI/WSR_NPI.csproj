@@ -325,6 +325,7 @@
     <Content Include="Views\DeliveryManager\Details.cshtml" />
     <Content Include="Views\DeliveryManager\Couriers.cshtml" />
     <Content Include="Views\DeliveryManager\AssignCourierOrder.cshtml" />
+    <Content Include="Views\SalesManager\History.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

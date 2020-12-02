@@ -281,6 +281,30 @@ namespace WSR_NPI.Controllers
         }
 
         /// <summary>
+        /// Отображение истории смены статусов заказа
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult History(int id)
+        {
+            Context = new Context();
+            var model = new List<Block>();
+
+            var blocks = Context.Blocks.ToList();
+
+            foreach(var block in blocks)
+            {
+                var order = JsonConvert.DeserializeObject<Order>(block.Data);
+                if (order.Id == id)
+                {
+                    model.Add(block);
+                }
+            }
+
+            return PartialView("History", model);           
+        }
+
+        /// <summary>
         /// Освобождение ресурсов
         /// </summary>
         /// <param name="disposing"></param>

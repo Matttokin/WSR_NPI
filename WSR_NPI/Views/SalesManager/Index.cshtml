@@ -36,6 +36,8 @@
                                     @Html.ActionLink("Редактировать", "Edit", "SalesManager", new { id = item.Id }, new { @class = "btn btn-secondary" })
                                 }
 
+                                @Html.ActionLink("История статусов", "History", "SalesManager", new { id = item.Id }, new { @class = "btn btn-black" })
+
                                 @if (item.Status.Equals("Принят") || item.Status.Equals("Комплектация начата") || item.Status.Equals("Комплектация завершена"))
                                 {
                                     @Html.ActionLink("Отменить", "Cancel", "SalesManager", new { id = item.Id }, new { @class = "btn btn-danger" })

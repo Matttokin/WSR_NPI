@@ -1,0 +1,36 @@
+﻿@model IEnumerable<WSR_NPI.DataBase.Models.Block>
+@using Newtonsoft.Json;
+@using WSR_NPI.DataBase;
+@using WSR_NPI.DataBase.Models;
+
+@{
+    Context db = new Context();
+}
+
+<table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Кто инициировал</th>
+            <th scope="col">Статус</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            var i = 1;
+            foreach (var item in Model)
+            {
+                var order = JsonConvert.DeserializeObject<Order>(item.Data);
+                var user = db.Users.FirstOrDefault(x => x.Id == item.IndexUser);
+
+                <tr>
+                    <th scope="row">@i</th>
+                    <td>@user.Login</td>
+                    <td>@order.Status</td>
+                </tr>
+
+                i++;
+            }
+        }
+    </tbody>
+</table>
