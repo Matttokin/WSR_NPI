@@ -91,6 +91,8 @@ namespace WSR_NPI.Controllers
                     nomenclature.Count -= orderNumModel.CountBuy;
                     Context.SaveChanges();
                 }
+
+                return RedirectToAction("Index");
             }
 
             return View(model);
