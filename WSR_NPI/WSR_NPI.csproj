@@ -140,6 +140,17 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\Web\FinishOrderController.cs" />
+    <Compile Include="Controllers\Web\GetOrderByIdController.cs" />
+    <Compile Include="Controllers\Web\GetStatusAndOrderController.cs" />
+    <Compile Include="Controllers\Web\GetTokenController.cs" />
+    <Compile Include="DataBase\Context.cs" />
+    <Compile Include="DataBase\Models\Nomenclature.cs" />
+    <Compile Include="DataBase\Models\Order.cs" />
+    <Compile Include="DataBase\Models\OrderNom.cs" />
+    <Compile Include="DataBase\Models\Role.cs" />
+    <Compile Include="DataBase\Models\User.cs" />
+    <Compile Include="DataBase\Models\Сourier.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -288,8 +299,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\Web\" />
-    <Folder Include="DataBase\Models\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
