@@ -19,6 +19,7 @@ namespace WSR_NPI.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
+            Context = new Context();
             var model = Context.Orders.Include(o => o.User).Where(x => x.Status.Equals("Принят") || x.Status.Equals("Комплектация начата") || x.Status.Equals("Отменен"));
 
             return View(model);
@@ -31,6 +32,7 @@ namespace WSR_NPI.Controllers
         /// <returns></returns>
         public ActionResult Details(int id)
         {
+            Context = new Context();
             var order = Context.Orders.Include(o => o.OrderNoms).Include(o => o.OrderNoms.Select(x => x.Nomenclature)).FirstOrDefault(o => o.Id == id);
 
             if (order != null)
@@ -50,6 +52,7 @@ namespace WSR_NPI.Controllers
         {
             try
             {
+                Context = new Context();
                 var order = Context.Orders
                                .Include(x => x.OrderNoms)
                                .Include(x => x.OrderNoms.Select(y => y.Nomenclature))
@@ -76,6 +79,7 @@ namespace WSR_NPI.Controllers
         {
             try
             {
+                Context = new Context();
                 var order = Context.Orders.Single(x => x.Id == id);
 
                 if (order.Status.Equals("Принят"))

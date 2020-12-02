@@ -86,18 +86,5 @@ namespace WSR_NPI.Controllers
 
             return PartialView("AssignCourierOrder", model);
         }
-
-        /// <summary>
-        /// Освобождение ресурсов
-        /// </summary>
-        /// <param name="disposing"></param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                Context.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }

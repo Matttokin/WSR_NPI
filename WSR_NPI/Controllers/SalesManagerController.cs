@@ -161,6 +161,8 @@ namespace WSR_NPI.Controllers
             }
 
             model.OrderNums = orderNums;
+            model.Adress = order.Adres;
+
             return View(model);
         }
 

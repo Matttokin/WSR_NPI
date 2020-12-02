@@ -7,7 +7,7 @@
     var couriers = db.Сouriers.Include(x => x.User).ToList();
 }
 
-<h1 class="h1">Назначение курьера на заказ</h1>
+<p>Назначение курьера на заказ</p>
 
 @using (Html.BeginForm())
 {
@@ -19,7 +19,7 @@
         @{
             List<SelectListItem> items = new List<SelectListItem>();
 
-            foreach (WSR.DataBase.Models.Сourier сourier in couriers)
+            foreach (WSR_NPI.DataBase.Models.Сourier сourier in couriers)
             {
                 items.Add(new SelectListItem { Text = сourier.User.FIO, Value = сourier.Id.ToString() });
             }

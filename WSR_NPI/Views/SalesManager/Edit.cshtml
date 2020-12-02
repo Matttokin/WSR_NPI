@@ -12,6 +12,8 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary()
 
+    @Html.HiddenFor(model => model.Adress)
+
     <table>
         <thead>
             <tr>
