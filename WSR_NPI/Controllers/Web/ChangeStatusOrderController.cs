@@ -16,11 +16,13 @@ namespace WSR_NPI.Controllers.Web
         public string Post(string token)
         {
             Context db = new Context();
-            var user = db.Users.FirstOrDefault(x => x.Token.Equals(token));
+            
+            var user = db.Users.FirstOrDefault(x => x.Token.Equals(token));//ищем пользователя
 
             if (user != null)
             {
-                var courier = db.Сouriers.FirstOrDefault(x => x.User.Id == user.Id);
+                //ищем курьера и назначенный ему заказ
+                var courier = db.Сouriers.FirstOrDefault(x => x.User.Id == user.Id); 
 
                 var order = db.Orders.FirstOrDefault(x => x.Id == courier.OrderId);
                 order.Status = "Получен курьером";

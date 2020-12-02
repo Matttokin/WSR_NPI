@@ -14,14 +14,16 @@ namespace WSR_NPI.Controllers.Web
         public string Post(string token)
         {
             Context db = new Context();
-            var user = db.Users.FirstOrDefault(x => x.Token.Equals(token));
+            var user = db.Users.FirstOrDefault(x => x.Token.Equals(token)); //ищем пользователя
 
             if (user != null)
             {
+                //освобождаем курьера и закрываем заказ
                 var courier = db.Сouriers.FirstOrDefault(x => x.User.Id == user.Id);
                 courier.Status = "Свободен";
                 var order = db.Orders.FirstOrDefault(x => x.Id == courier.OrderId);
                 order.Status = "Доставлен";
+                //добавляем запись в блокчейн
                 BlockChainManager.GenerateNextBlock(JsonConvert.SerializeObject(order), user.Id);
                 courier.OrderId = null;
                 db.SaveChanges();

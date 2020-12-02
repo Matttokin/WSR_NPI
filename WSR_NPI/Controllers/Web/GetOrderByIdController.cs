@@ -16,9 +16,10 @@ namespace WSR_NPI.Controllers.Web
         {
             Context db = new Context();
 
+            //получаем список товаров в заказе
             var orderNoms = db.OrderNoms.Where(x => x.OrderId == idOrder).Include(x => x.Nomenclature).Select(x => x.Nomenclature).ToList();
 
-            var order = db.Orders.Include(x => x.OrderNoms).FirstOrDefault(x => x.Id == idOrder);
+            //var order = db.Orders.Include(x => x.OrderNoms).FirstOrDefault(x => x.Id == idOrder);
             return orderNoms;
         }
     }
