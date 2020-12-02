@@ -1,0 +1,39 @@
+﻿@model IEnumerable<WSR_NPI.DataBase.Models.Сourier>
+
+@{
+    ViewBag.Title = "Cписок курьеров";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3>Список курьеров</h3>
+    </div>
+    <div class="panel-body">
+
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">FIO</th>
+                    <th scope="col">Статус</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var i = 1;
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">@i</th>
+                            <td>@item.User.FIO</td>
+                            <td>@item.Status</td>
+                        </tr>
+                    }
+
+                    i++;
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>

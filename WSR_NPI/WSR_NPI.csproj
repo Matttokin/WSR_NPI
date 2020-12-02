@@ -140,8 +140,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DeliveryManagerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SalesManagerController.cs" />
+    <Compile Include="Controllers\WarehouseWorkerController.cs" />
     <Compile Include="Controllers\Web\FinishOrderController.cs" />
     <Compile Include="Controllers\Web\GetOrderByIdController.cs" />
     <Compile Include="Controllers\Web\GetStatusAndOrderController.cs" />
@@ -292,8 +294,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
@@ -311,6 +311,12 @@
     <Content Include="Views\SalesManager\CreateOrder.cshtml" />
     <Content Include="Views\SalesManager\Details.cshtml" />
     <Content Include="Views\SalesManager\Edit.cshtml" />
+    <Content Include="Views\WarehouseWorker\Index.cshtml" />
+    <Content Include="Views\WarehouseWorker\Details.cshtml" />
+    <Content Include="Views\DeliveryManager\Index.cshtml" />
+    <Content Include="Views\DeliveryManager\Details.cshtml" />
+    <Content Include="Views\DeliveryManager\Couriers.cshtml" />
+    <Content Include="Views\DeliveryManager\AssignCourierOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
