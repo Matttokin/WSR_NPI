@@ -57,7 +57,11 @@
                             @Html.ActionLink("Список курьеров", "Couriers", "DeliveryManager", new { area = "" }, new { @class = "nav-link" })
                         </li>
                     }
+                    <li class="nav-item text-white">
+                        @Html.ActionLink("QR коды", "Index", "QRCOde", new { area = "" }, new { @class = "nav-link" })
+                    </li>
                 </ul>
+
 
                 @Html.ActionLink("Выход", "Logoff", "Account", new { area = "" }, new { @class = "btn btn-outline-info" })
             </div>
