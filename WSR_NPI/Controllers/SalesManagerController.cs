@@ -92,16 +92,16 @@ namespace WSR_NPI.Controllers
                 if (SmartCreate(order))
                 {
                     var orderData = bM.Encrypt(JsonConvert.SerializeObject(order));
-                    ScriptEngine engine = Python.CreateEngine();
-                    ScriptScope scope = engine.CreateScope();
-                    scope.SetVariable("msg", orderData);
-                    engine.ExecuteFile(Server.MapPath("~/Py/keys.py"), scope);
-                    dynamic sign = scope.GetVariable("sign");
-                    dynamic pubKey = scope.GetVariable("pubKey");
+                    //ScriptEngine engine = Python.CreateEngine();
+                    //ScriptScope scope = engine.CreateScope();
+                    //scope.SetVariable("msg", orderData);
+                    //engine.ExecuteFile(Server.MapPath("~/Py/keys.py"), scope);
+                    //dynamic sign = scope.GetVariable("sign");
+                    //dynamic pubKey = scope.GetVariable("pubKey");
 
-                    BlockChainManager.Path = Server.MapPath("~/Py/varify.py");
-                    BlockChainManager.Sign = sign;
-                    BlockChainManager.PubKey = pubKey;
+                    //BlockChainManager.Path = Server.MapPath("~/Py/varify.py");
+                    //BlockChainManager.Sign = sign;
+                    //BlockChainManager.PubKey = pubKey;
                     BlockChainManager.GenerateNextBlock(orderData, user.Id);
                 }
 

@@ -33,7 +33,7 @@ def get_sig(massage,private_key):
             sig.append(private_key[1][i])
     return sig
 
-
+    z
 def varify_sig(massage,sig, public_key):
     temp_sig = get_sig(massage, public_key)
     sig_hash = [hashlib.sha256(str.encode(to_bin(i))).hexdigest()[2:] for i in sig]

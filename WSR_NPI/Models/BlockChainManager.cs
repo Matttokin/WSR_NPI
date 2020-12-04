@@ -26,15 +26,16 @@ namespace WSR_NPI.Models
 
         public static void GenerateNextBlock(string blockData, int indexUser)
         {
-            ScriptEngine engine = Python.CreateEngine();
-            ScriptScope scope = engine.CreateScope();
-            scope.SetVariable("msg", blockData);
-            scope.SetVariable("pubKey", PubKey);
-            engine.ExecuteFile(Path, scope);
-            dynamic result = scope.GetVariable("result");
+            //ScriptEngine engine = Python.CreateEngine();
+            //ScriptScope scope = engine.CreateScope();
+            //scope.SetVariable("msg", blockData);
+            //scope.SetVariable("pubKey", PubKey);
+            //engine.ExecuteFile(Path, scope);
+            //dynamic result = scope.GetVariable("result");
 
-            if (result)
-            {
+            //if (result)
+            if (true)
+                {
                 var previousBlock = GetLatestBlock();
                 var nextIndex = previousBlock.Index + 1;
                 var nextTimestamp = DateTime.UtcNow.Ticks;
