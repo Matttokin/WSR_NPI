@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using WSR_NPI.Crypt;
 using WSR_NPI.DataBase;
 using WSR_NPI.Models;
 
@@ -16,7 +17,8 @@ namespace WSR_NPI.Controllers.Web
         public string Post(string token)
         {
             Context db = new Context();
-            
+            BaseMethods bM = new BaseMethods();
+
             var user = db.Users.FirstOrDefault(x => x.Token.Equals(token));//ищем пользователя
 
             if (user != null)
@@ -27,7 +29,7 @@ namespace WSR_NPI.Controllers.Web
                 var order = db.Orders.FirstOrDefault(x => x.Id == courier.OrderId);
                 order.Status = "Получен курьером";
                 //добавляем запись в блокчейн
-                BlockChainManager.GenerateNextBlock(JsonConvert.SerializeObject(order), user.Id);
+                BlockChainManager.GenerateNextBlock(bM.Encrypt(JsonConvert.SerializeObject(order)), user.Id);
                 db.SaveChanges();
 
                 return "Успешно";

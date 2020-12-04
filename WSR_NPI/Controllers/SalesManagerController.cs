@@ -8,6 +8,7 @@ using WSR_NPI.DataBase;
 using WSR_NPI.Models;
 using WSR_NPI.DataBase.Models;
 using Newtonsoft.Json;
+using WSR_NPI.Crypt;
 
 namespace WSR_NPI.Controllers
 {
@@ -15,11 +16,12 @@ namespace WSR_NPI.Controllers
     public class SalesManagerController : Controller
     {
         private Context Context = new Context();
-
+        BaseMethods bM = new BaseMethods();
         // GET: SalesManager
         public ActionResult Index()
         {
             return View(Context.Orders.Include(o => o.User));
+            
         }
 
         /// <summary>
@@ -87,7 +89,7 @@ namespace WSR_NPI.Controllers
 
                 if (SmartCreate(order))
                 {
-                    BlockChainManager.GenerateNextBlock(JsonConvert.SerializeObject(order), user.Id);
+                    BlockChainManager.GenerateNextBlock(bM.Encrypt(JsonConvert.SerializeObject(order)), user.Id);
                 }
 
                 foreach (var orderNumModel in model.OrderNums.Where(o => o.IsBuy && o.CountBuy > 0))
@@ -277,7 +279,7 @@ namespace WSR_NPI.Controllers
                 var user = Context.Users.Single(x => x.Login.Equals(User.Identity.Name));
 
                 if (SmartCancel(order)){
-                    BlockChainManager.GenerateNextBlock(JsonConvert.SerializeObject(order), user.Id);
+                    BlockChainManager.GenerateNextBlock(bM.Encrypt(JsonConvert.SerializeObject(order)), user.Id);
                 }
 
                 Context.SaveChanges();
@@ -306,7 +308,7 @@ namespace WSR_NPI.Controllers
             {
                 if(block.Index != 1)
                 {
-                    var order = JsonConvert.DeserializeObject<Order>(block.Data);
+                    var order = JsonConvert.DeserializeObject<Order>(bM.Decrypt(block.Data));
                     if (order.Id == id)
                     {
                         model.Add(block);

@@ -8,6 +8,7 @@ using WSR_NPI.DataBase;
 using WSR_NPI.Models;
 using Newtonsoft.Json;
 using WSR_NPI.DataBase.Models;
+using WSR_NPI.Crypt;
 
 namespace WSR_NPI.Controllers
 {
@@ -15,6 +16,7 @@ namespace WSR_NPI.Controllers
     public class WarehouseWorkerController : Controller
     {
         private Context Context = new Context();
+        BaseMethods bM = new BaseMethods();
 
         /// <summary>
         /// Список заказов
@@ -98,7 +100,7 @@ namespace WSR_NPI.Controllers
 
                 if (SmartStatus(order))
                 {
-                    BlockChainManager.GenerateNextBlock(JsonConvert.SerializeObject(order), user.Id);
+                    BlockChainManager.GenerateNextBlock(bM.Encrypt(JsonConvert.SerializeObject(order)), user.Id);
                 }
                 Context.SaveChanges();
 

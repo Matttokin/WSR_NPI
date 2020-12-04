@@ -2,6 +2,7 @@
 @using Newtonsoft.Json;
 @using WSR_NPI.DataBase;
 @using WSR_NPI.DataBase.Models;
+@using WSR_NPI.Crypt;
 
 @{
     Context db = new Context();
@@ -17,10 +18,11 @@
     </thead>
     <tbody>
         @{
+            BaseMethods bM = new BaseMethods();
             var i = 1;
             foreach (var item in Model)
             {
-                var order = JsonConvert.DeserializeObject<Order>(item.Data);
+                var order = JsonConvert.DeserializeObject<Order>(bM.Decrypt(item.Data));
                 var user = db.Users.FirstOrDefault(x => x.Id == item.IndexUser);
 
                 <tr>

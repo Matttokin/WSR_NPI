@@ -8,6 +8,7 @@ using WSR_NPI.DataBase;
 using Newtonsoft.Json;
 using WSR_NPI.Models;
 using WSR_NPI.DataBase.Models;
+using WSR_NPI.Crypt;
 
 namespace WSR_NPI.Controllers
 {
@@ -15,6 +16,7 @@ namespace WSR_NPI.Controllers
     public class DeliveryManagerController : Controller
     {
         private Context Context = new Context();
+        BaseMethods bM = new BaseMethods();
 
         // GET: DeliveryManager
         public ActionResult Index()
@@ -87,7 +89,7 @@ namespace WSR_NPI.Controllers
 
                 if (SmartCourier(order, c)) 
                 {
-                    BlockChainManager.GenerateNextBlock(JsonConvert.SerializeObject(order), user.Id);
+                    BlockChainManager.GenerateNextBlock(bM.Encrypt(JsonConvert.SerializeObject(order)), user.Id);
                 }
                 Context.SaveChanges();
 

@@ -153,6 +153,8 @@
     <Compile Include="Controllers\Web\GetOrderByIdController.cs" />
     <Compile Include="Controllers\Web\GetStatusAndOrderController.cs" />
     <Compile Include="Controllers\Web\GetTokenController.cs" />
+    <Compile Include="Crypt\BaseMethods.cs" />
+    <Compile Include="Crypt\Cfg.cs" />
     <Compile Include="DataBase\Context.cs" />
     <Compile Include="DataBase\Models\Block.cs" />
     <Compile Include="DataBase\Models\Nomenclature.cs" />
