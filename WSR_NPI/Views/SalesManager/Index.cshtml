@@ -29,6 +29,7 @@
                             <td>@item.User.Login</td>
                             <td>@item.Status</td>
                             <td>
+                                @Html.AntiForgeryToken()
                                 @Html.ActionLink("Содержимое", "Details", "SalesManager", new { id = item.Id }, new { @class = "btn btn-primary order-btn" })
 
                                 @if (item.Status.Equals("Принят"))

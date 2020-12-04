@@ -11,9 +11,10 @@ namespace WSR_NPI.Models
 {
     public static class BlockChainManager
     {
+        public static bool Need = false;
         public static List<Block> BlockChain { get; set; }
 
-        public static string PubKey { get; set; }
+        public static dynamic PubKey { get; set; }
 
         public static dynamic Sign { get; set; }    
         
@@ -26,16 +27,32 @@ namespace WSR_NPI.Models
 
         public static void GenerateNextBlock(string blockData, int indexUser)
         {
-            //ScriptEngine engine = Python.CreateEngine();
-            //ScriptScope scope = engine.CreateScope();
-            //scope.SetVariable("msg", blockData);
-            //scope.SetVariable("pubKey", PubKey);
-            //engine.ExecuteFile(Path, scope);
-            //dynamic result = scope.GetVariable("result");
+            if (Need)
+            {
+                ScriptEngine engine = Python.CreateEngine();
+                ScriptScope scope = engine.CreateScope();
+                scope.SetVariable("msg", blockData);
+                scope.SetVariable("sign", Sign);
+                scope.SetVariable("pubKey", PubKey);
+                engine.ExecuteFile(Path, scope);
+                dynamic result = scope.GetVariable("result");
 
-            //if (result)
-            if (true)
+                if (result)
                 {
+                    var previousBlock = GetLatestBlock();
+                    var nextIndex = previousBlock.Index + 1;
+                    var nextTimestamp = DateTime.UtcNow.Ticks;
+                    var nextHash = CalculateHash(nextIndex, previousBlock.Hash, nextTimestamp, blockData);
+
+                    var db = new Context();
+
+                    db.Blocks.Add(new Block(nextIndex, previousBlock.Hash, nextTimestamp, blockData, nextHash, indexUser));
+                    db.SaveChanges();
+                }
+                Need = false;
+            }
+            else
+            {
                 var previousBlock = GetLatestBlock();
                 var nextIndex = previousBlock.Index + 1;
                 var nextTimestamp = DateTime.UtcNow.Ticks;

@@ -1,22 +1,23 @@
 ﻿@model WSR_NPI.DataBase.Models.Order
 
-<div>
-    <p>Содержание:</p>
-    <table>
-        <thead>
-            <tr>
-                <th>Товар</th>
-                <th>Количество</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var orderNom in Model.OrderNoms)
-            {
+    <div>
+        <p>Содержание:</p>
+        
+        <table>
+            <thead>
                 <tr>
+                    <th>Товар</th>
+                    <th>Количество</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var orderNom in Model.OrderNoms)
+                {
+                    <tr>
                     <td>@orderNom.Nomenclature.Name</td>
                     <td>@orderNom.CountInOrder</td>
                 </tr>
             }
-        </tbody>
-    </table>
-</div>
+            </tbody>
+        </table>
+    </div>
