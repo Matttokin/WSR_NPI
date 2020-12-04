@@ -1,4 +1,6 @@
-﻿using System;
+﻿using IronPython.Hosting;
+using Microsoft.Scripting.Hosting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +13,12 @@ namespace WSR_NPI.Models
     {
         public static List<Block> BlockChain { get; set; }
 
+        public static string PubKey { get; set; }
+
+        public static dynamic Sign { get; set; }    
+        
+        public static string Path { get; set; }
+
         public static List<Block> GetBlockChain()
         {
             return new Context().Blocks.ToList();
@@ -18,15 +26,25 @@ namespace WSR_NPI.Models
 
         public static void GenerateNextBlock(string blockData, int indexUser)
         {
-            var previousBlock = GetLatestBlock();
-            var nextIndex = previousBlock.Index + 1;
-            var nextTimestamp = DateTime.UtcNow.Ticks;
-            var nextHash = CalculateHash(nextIndex, previousBlock.Hash, nextTimestamp, blockData);
+            ScriptEngine engine = Python.CreateEngine();
+            ScriptScope scope = engine.CreateScope();
+            scope.SetVariable("msg", blockData);
+            scope.SetVariable("pubKey", PubKey);
+            engine.ExecuteFile(Path, scope);
+            dynamic result = scope.GetVariable("result");
 
-            var db = new Context();
+            if (result)
+            {
+                var previousBlock = GetLatestBlock();
+                var nextIndex = previousBlock.Index + 1;
+                var nextTimestamp = DateTime.UtcNow.Ticks;
+                var nextHash = CalculateHash(nextIndex, previousBlock.Hash, nextTimestamp, blockData);
 
-            db.Blocks.Add(new Block(nextIndex, previousBlock.Hash, nextTimestamp, blockData, nextHash, indexUser));
-            db.SaveChanges();
+                var db = new Context();
+
+                db.Blocks.Add(new Block(nextIndex, previousBlock.Hash, nextTimestamp, blockData, nextHash, indexUser));
+                db.SaveChanges();
+            }
         }
 
         public static void ReplaceChain(List<Block> newBlocks)
